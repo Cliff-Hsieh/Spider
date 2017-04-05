@@ -8,4 +8,14 @@ class PlayerSpider(scrapy.Spider):
     start_urls = ['http://sports.yahoo.com/']
 
     def parse(self, response):
-        pass
+        item = playerProp()
+
+class playerProp(scrapy.Item):
+    name = scrapy.Field()
+    team = scrapy.Field()
+    num = scrapy.Field()
+    pos = scrapy.Field()
+    avg = scrapy.Field()
+    hr  = scrapy.Field()
+    rbi = scrapy.Field()
+    run = scrapy.Field()
