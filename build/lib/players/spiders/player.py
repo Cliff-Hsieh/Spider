@@ -14,9 +14,9 @@ class PlayerSpider(scrapy.Spider):
     def parse_detail_page(self, response):
         item = playerProp()
         item['name'] = response.xpath('//span[@data-reactid="10"]/text()').extract()
-        item['team'] = response.xpath('//a[@data-reactid="22"]/text()').extract()
-        item['num'] = response.xpath('//span[@data-reactid="16"]/text()').extract()
-        item['pos'] = response.xpath('//span[@data-reactid="18"]/text()').extract()
+        item['team'] = response.xpath('//div[@data-reactid="21"]/a[@data-reactid="22"]/text()').extract()
+        item['num'] = response.xpath('//span[@data-reactid="16"]/text()').extract()[0].split("#")[1]
+        item['pos'] = response.xpath('//span[@data-reactid="18"]/text()').extract()[0]
         item['avg'] = response.xpath('//div[@data-reactid="26"]/text()').extract()
         item['hr'] = response.xpath('//div[@data-reactid="29"]/text()').extract()
         item['rbi'] = response.xpath('//div[@data-reactid="32"]/text()').extract()
