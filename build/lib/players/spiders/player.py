@@ -2,14 +2,22 @@
 import scrapy
 import urlparse
 from scrapy.http.request import Request
+from scrapy.selector import Selector
 
 class PlayerSpider(scrapy.Spider):
     name = "player"
     allowed_domains = ["sports.yahoo.com"]
-    start_urls = ['http://sports.yahoo.com/']
+    start_urls = ['http://sports.yahoo.com/mlb/teams/chc/roster/']
 
     def parse(self, response):
-        yield Request("http://sports.yahoo.com/mlb/players/9558/", callback=self.parse_detail_page)
+        sel = Selector(response)
+        sites = sel.xpath('//div[@class="D(ib) Va(m) Py(cell-padding-y)"]/a/@href').extract()
+
+        for site in sites:
+            if 'http://' not in site:
+                site = response.urljoin(site)
+                yield Request( site, callback=self.parse_detail_page)
+
 
     def parse_detail_page(self, response):
         item = playerProp()
